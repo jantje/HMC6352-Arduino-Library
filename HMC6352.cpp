@@ -23,20 +23,20 @@
 #include "HMC6352.h"
 
 
-int HMC6352SlaveAddress = 0x21;
-int HMC6352ReadAddress = 0x41;		//"A" in hex, A command is: "Get Data" command
-int HMC6352SleepAddress = 0x53; 	//"S" in hex, S command is: "Sleep" command
-int HMC6352WakeAddress = 0x57; 		//"W" in hex, W command is: "Wake" command
+#define HMC6352SlaveAddress  0x21
+#define HMC6352ReadCommand  'A'  	// A command is: "Get Data" command
+#define HMC6352SleepCommand 'S' 	// S command is: "Sleep" command
+#define HMC6352WakeCommand  'W' 		// W command is: "Wake" command
 
 
 int HMC6352Class::GetHeading()
 {
-  float headingSum;
+  int headingSum;
 
   Wire.beginTransmission(HMC6352SlaveAddress);
-  Wire.write(HMC6352ReadAddress);		// The "Get Data" command
+  Wire.write(HMC6352ReadCommand);		// The "Get Data" command
   Wire.endTransmission();
-  delay(8); //6000 microseconds minimum 6 ms 
+  delay(8); //6000 microseconds minimum 6 ms
 
   Wire.requestFrom(HMC6352SlaveAddress, 2);
   
@@ -47,14 +47,14 @@ int HMC6352Class::GetHeading()
 
   headingSum = (MSB << 8) + LSB; //(MSB / LSB sum)
   
-  return (headingSum / 10);
+  return (headingSum /DIVIDOR );
 }
 
 
 void HMC6352Class::Wake()
 {
   Wire.beginTransmission(HMC6352SlaveAddress);
-  Wire.write(HMC6352WakeAddress); //W wake up exit sleep mode
+  Wire.write(HMC6352WakeCommand); //W wake up exit sleep mode
   Wire.endTransmission();
   
 }
@@ -63,8 +63,7 @@ void HMC6352Class::Wake()
 void HMC6352Class::Sleep()
 {
   Wire.beginTransmission(HMC6352SlaveAddress);
-  Wire.write(HMC6352SleepAddress); //S enter sleep mode
+  Wire.write(HMC6352SleepCommand); //S enter sleep mode
   Wire.endTransmission();
 }
 
-HMC6352Class HMC6352;
