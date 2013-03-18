@@ -21,6 +21,14 @@
 #ifndef HMC6352_H
 #define HMC6352_H
 
+#ifdef RETURNDECIDEGREES //To get the heading in decidegrees; 31,5 degrees read => 315 decidegrees response
+#define DIVIDOR 10
+#else  //To get the heading in degrees; 31,5 degrees read => 31 degrees response
+#define DIVIDOR 1
+#endif
+
+
+
 class HMC6352Class
 {
   public:
@@ -30,7 +38,5 @@ class HMC6352Class
   private:
   
 };
-
-extern HMC6352Class HMC6352;
 
 #endif
