@@ -8,7 +8,7 @@
 
 #include <Wire.h>
 #include <HMC6352.h>
- 
+ static HMC6352Class HMC6352;
   
 void setup()
 {  
